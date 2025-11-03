@@ -1,6 +1,6 @@
 # KPI Platform - Monitoring and Tracking System
 
-A comprehensive KPI (Key Performance Indicator) monitoring and tracking platform built with Node.js, Express, React, and MongoDB.
+A comprehensive KPI (Key Performance Indicator) monitoring and tracking platform built with React, Vercel Serverless Functions, and Supabase (PostgreSQL).
 
 ## Features
 
@@ -13,282 +13,235 @@ A comprehensive KPI (Key Performance Indicator) monitoring and tracking platform
 - **Flexible Units**: Support for numbers, percentages, currency, time, and custom units
 - **Data Visualization**: Interactive charts and graphs using Recharts
 - **RESTful API**: Comprehensive API for programmatic access
+- **Serverless Architecture**: Deployed on Vercel with automatic scaling
+- **PostgreSQL Database**: Powered by Supabase for reliability and performance
 
 ## Tech Stack
 
 ### Backend
-- Node.js
-- Express.js
-- MongoDB with Mongoose
-- CORS, Helmet for security
-- Morgan for logging
+- **Vercel Serverless Functions**: API endpoints
+- **Supabase**: PostgreSQL database with real-time capabilities
+- **@supabase/supabase-js**: Supabase client library
 
 ### Frontend
-- React 18
-- React Router for navigation
-- Axios for API calls
-- Recharts for data visualization
-- date-fns for date formatting
+- **React 18**: Modern UI framework
+- **React Router**: Client-side routing
+- **Axios**: HTTP client for API calls
+- **Recharts**: Data visualization library
+- **date-fns**: Date formatting utilities
 
-## Installation
+## Quick Start
 
-### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (v4.4 or higher)
+### 1. Prerequisites
+
+- Node.js (v16 or higher)
 - npm or yarn
+- A Supabase account (free tier available)
+- A Vercel account (free tier available)
 
-### Setup
+### 2. Set Up Supabase
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd kpi-platform
-   ```
+1. Create a new project at [https://supabase.com](https://supabase.com)
+2. Go to the SQL Editor in your Supabase dashboard
+3. Copy and run the contents of `supabase/schema.sql`
+4. Get your connection details from Settings → API:
+   - Project URL
+   - Anon/Public Key
+   - Service Role Key
 
-2. **Install backend dependencies**
-   ```bash
-   npm install
-   ```
+See `supabase/SETUP.md` for detailed instructions.
 
-3. **Install frontend dependencies**
-   ```bash
-   cd client
-   npm install
-   cd ..
-   ```
+### 3. Clone and Install
 
-4. **Configure environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-
-   Edit `.env` and configure:
-   ```
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/kpi-platform
-   NODE_ENV=development
-   ```
-
-5. **Start MongoDB**
-   ```bash
-   # Make sure MongoDB is running
-   mongod
-   ```
-
-6. **Run the application**
-
-   Development mode (both frontend and backend):
-   ```bash
-   npm run dev:full
-   ```
-
-   Or run separately:
-   ```bash
-   # Terminal 1 - Backend
-   npm run dev
-
-   # Terminal 2 - Frontend
-   npm run client
-   ```
-
-7. **Access the application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
-   - Health check: http://localhost:5000/health
-
-## Project Structure
-
+```bash
+git clone <repository-url>
+cd kpi-platform
+npm run install:all
 ```
-kpi-platform/
-├── server/                 # Backend application
-│   ├── config/            # Configuration files
-│   │   └── database.js    # MongoDB connection
-│   ├── controllers/       # Route controllers
-│   │   ├── categoryController.js
-│   │   ├── dashboardController.js
-│   │   ├── kpiController.js
-│   │   └── metricController.js
-│   ├── models/           # Mongoose models
-│   │   ├── Category.js
-│   │   ├── KPI.js
-│   │   └── Metric.js
-│   ├── routes/           # API routes
-│   │   ├── categoryRoutes.js
-│   │   ├── dashboardRoutes.js
-│   │   ├── kpiRoutes.js
-│   │   └── metricRoutes.js
-│   └── index.js          # Server entry point
-├── client/               # Frontend React application
-│   ├── public/          # Static files
-│   ├── src/
-│   │   ├── components/  # React components
-│   │   │   ├── Dashboard.js
-│   │   │   ├── KPIList.js
-│   │   │   ├── KPIForm.js
-│   │   │   ├── KPIDetail.js
-│   │   │   ├── MetricForm.js
-│   │   │   └── CategoryList.js
-│   │   ├── services/    # API services
-│   │   │   └── api.js
-│   │   ├── App.js       # Main app component
-│   │   ├── App.css
-│   │   ├── index.js
-│   │   └── index.css
-│   └── package.json
-├── .env.example         # Environment variables template
-├── .gitignore
-├── package.json
-└── README.md
+
+### 4. Configure Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+SUPABASE_URL=https://xxxxx.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+NODE_ENV=development
 ```
+
+### 5. Run Development Server
+
+```bash
+npm run dev
+```
+
+This starts the Vercel dev server which runs both the frontend and API functions locally.
+
+Access the application at: **http://localhost:3000**
+
+## Deployment to Vercel
+
+### Deploy via Vercel CLI
+
+1. **Install Vercel CLI**
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Login to Vercel**
+   ```bash
+   vercel login
+   ```
+
+3. **Deploy**
+   ```bash
+   vercel
+   ```
+
+4. **Set Environment Variables**
+   ```bash
+   vercel env add SUPABASE_URL
+   vercel env add SUPABASE_ANON_KEY
+   vercel env add SUPABASE_SERVICE_ROLE_KEY
+   ```
+
+5. **Deploy to Production**
+   ```bash
+   npm run deploy
+   ```
+
+### Deploy via Vercel Dashboard
+
+1. Go to [https://vercel.com](https://vercel.com)
+2. Click "Add New Project"
+3. Import your Git repository
+4. Configure:
+   - **Framework Preset**: Other
+   - **Build Command**: `cd client && npm install && npm run build`
+   - **Output Directory**: `client/build`
+   - **Install Command**: `npm install`
+
+5. Add Environment Variables:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+
+6. Click "Deploy"
+
+Your app will be live at `https://your-project.vercel.app`
 
 ## API Documentation
 
-See [API.md](./API.md) for detailed API documentation.
+Full API documentation available in [API.md](./API.md)
 
-### Quick API Reference
+**Base URL**: `https://your-project.vercel.app/api`
 
-**KPIs**
-- `GET /api/kpis` - Get all KPIs
-- `POST /api/kpis` - Create KPI
-- `GET /api/kpis/:id` - Get KPI by ID
-- `PUT /api/kpis/:id` - Update KPI
-- `DELETE /api/kpis/:id` - Delete KPI
-- `GET /api/kpis/:id/stats` - Get KPI statistics
+**Key Endpoints**:
+- Health: `GET /api/health`
+- KPIs: `GET/POST /api/kpis`, `GET/PUT/DELETE /api/kpis/:id`
+- Metrics: `GET/POST /api/metrics`, `POST /api/metrics/bulk`
+- Categories: `GET/POST /api/categories`
+- Dashboard: `GET /api/dashboard/overview`, `/trends`, `/performance`
 
-**Metrics**
-- `GET /api/metrics` - Get all metrics
-- `POST /api/metrics` - Create metric
-- `POST /api/metrics/bulk` - Bulk create metrics
-- `GET /api/metrics/kpi/:kpiId` - Get metrics by KPI
-- `GET /api/metrics/:id` - Get metric by ID
-- `PUT /api/metrics/:id` - Update metric
-- `DELETE /api/metrics/:id` - Delete metric
+## Usage Guide
 
-**Categories**
-- `GET /api/categories` - Get all categories
-- `POST /api/categories` - Create category
-- `GET /api/categories/:id` - Get category by ID
-- `PUT /api/categories/:id` - Update category
-- `DELETE /api/categories/:id` - Delete category
-
-**Dashboard**
-- `GET /api/dashboard/overview` - Get dashboard overview
-- `GET /api/dashboard/trends` - Get trends data
-- `GET /api/dashboard/performance` - Get performance summary
-
-## Usage
-
-### Creating a Category
-
-1. Navigate to "Categories" in the navigation menu
+### Creating Categories
+1. Navigate to "Categories"
 2. Click "+ Add Category"
-3. Fill in the category name, description, and select a color
+3. Fill in name, description, color
 4. Click "Create"
 
-### Creating a KPI
-
-1. Navigate to "KPIs" or click "+ Add KPI" from the dashboard
-2. Fill in the KPI details:
-   - Name and description
-   - Select a category
-   - Choose unit type (number, percentage, currency, time, or custom)
-   - Set target value and target type (maximize, minimize, or maintain)
-   - Select frequency (daily, weekly, monthly, quarterly, yearly)
-   - Add tags (optional)
-3. Click "Create KPI"
+### Creating KPIs
+1. Go to "KPIs" or dashboard
+2. Click "+ Add KPI"
+3. Configure:
+   - Basic info (name, description, category)
+   - Unit type and custom unit if needed
+   - Target value and type (maximize/minimize/maintain)
+   - Frequency (daily/weekly/monthly/quarterly/yearly)
+   - Tags for organization
+4. Click "Create KPI"
 
 ### Adding Metrics
-
-1. Go to a KPI detail page
+1. Open a KPI detail page
 2. Click "+ Add Metric"
-3. Enter the metric value
-4. Select the period and date range
-5. Add notes (optional)
-6. Click "Add Metric"
+3. Enter value, period, and date range
+4. Add optional notes
+5. Click "Add Metric"
 
-The KPI will automatically update its current value and trend based on new metrics.
+KPIs automatically update with new metrics and trend calculations.
 
-## Docker Support
+## Database Features
 
-See [Docker documentation](./DOCKER.md) for containerized deployment.
+### Automatic Features
+- UUID primary keys
+- Auto-updated timestamps
+- Automatic trend calculation
+- KPI value updates on metric insertion
+- Optimized indexes
 
-Quick start with Docker:
-```bash
-docker-compose up -d
-```
+### Built-in Functions
+- `calculate_trend()`: Calculates up/down/stable
+- `update_kpi_trend()`: Auto-calculates trends
+- `update_kpi_on_metric_insert()`: Updates KPI values
 
-## Development
+## Monitoring
 
-### Running Tests
-```bash
-npm test
-```
+### Supabase Dashboard
+- View database tables and data
+- Run SQL queries
+- Monitor query performance
+- Check logs
+- Manage backups
 
-### Building for Production
-```bash
-npm run build
-```
+### Vercel Dashboard
+- Deployment history
+- Function logs
+- Performance analytics
+- Real-time monitoring
 
-### Code Style
-The project follows standard JavaScript/React conventions. Ensure code is properly formatted before committing.
+## Troubleshooting
 
-## Features in Detail
+**API 500 Errors**: Check Vercel logs and verify environment variables
 
-### KPI Types
-- **Number**: Simple numeric values
-- **Percentage**: Values displayed as percentages
-- **Currency**: Monetary values
-- **Time**: Time-based measurements
-- **Custom**: Define your own unit
+**Database Connection**: Verify Supabase URL and keys, check project status
 
-### Target Types
-- **Maximize**: Higher values are better
-- **Minimize**: Lower values are better
-- **Maintain**: Target a specific value
+**Frontend Issues**: Check browser console, verify API routes deployed
 
-### Automatic Trend Detection
-The system automatically calculates trends by comparing current and previous values:
-- **Up**: Current value > Previous value
-- **Down**: Current value < Previous value
-- **Stable**: Current value = Previous value
+## Security Best Practices
 
-### Performance Calculation
-Performance is automatically calculated as:
-```
-Performance (%) = (Current Value / Target Value) × 100
-```
+1. Never commit `.env` files
+2. Use Service Role Key only on backend
+3. Enable Row Level Security (RLS) for production
+4. Implement authentication
+5. Rate limit API endpoints
 
-### Data Visualization
-- Line charts for trend analysis
-- Bar charts for category comparisons
-- Real-time performance indicators
-- Historical data tracking
+## Performance
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+- Database indexes for optimal queries
+- Vercel CDN for static assets
+- Automatic function scaling
+- Optimized React bundle
 
 ## License
 
-MIT License - see LICENSE file for details
+MIT License
 
 ## Support
 
-For issues and questions, please open an issue on the GitHub repository.
+- GitHub Issues
+- [Supabase Docs](https://supabase.com/docs)
+- [Vercel Docs](https://vercel.com/docs)
 
 ## Roadmap
 
-- [ ] User authentication and authorization
+- [ ] User authentication (Supabase Auth)
 - [ ] Role-based access control
-- [ ] Email notifications and alerts
-- [ ] Export data to CSV/Excel
-- [ ] Advanced filtering and search
-- [ ] Mobile responsive improvements
-- [ ] API rate limiting
-- [ ] Webhook integrations
-- [ ] Custom dashboard widgets
-- [ ] Multi-language support
+- [ ] Real-time updates with Supabase subscriptions
+- [ ] Email notifications
+- [ ] CSV/Excel export
+- [ ] Mobile app
+- [ ] Dark mode
+- [ ] Webhooks
+- [ ] Custom widgets

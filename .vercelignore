@@ -1,0 +1,10 @@
+node_modules
+.env
+.env.local
+.DS_Store
+*.log
+npm-debug.log*
+client/node_modules
+.git
+supabase/SETUP.md
+README.md
