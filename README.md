@@ -1,294 +1,222 @@
-# KPI Platform - Monitoring and Tracking System
+# 🎯 KPI Management Platform
 
-A comprehensive KPI (Key Performance Indicator) monitoring and tracking platform built with Node.js, Express, React, and MongoDB.
+> **Enterprise-grade KPI tracking system built with Next.js 14 and Supabase**
 
-## Features
+A comprehensive, dynamic platform for manufacturing plants and organizations to track, analyze, and improve Key Performance Indicators (KPIs) across hierarchical departments.
 
-- **Dashboard Overview**: Real-time visualization of all KPIs and performance metrics
-- **KPI Management**: Create, update, and track KPIs with customizable targets
-- **Metrics Tracking**: Record and visualize metric data over time
-- **Categories**: Organize KPIs into custom categories
-- **Trends Analysis**: Track performance trends with interactive charts
-- **Performance Monitoring**: Automatic calculation of KPI performance against targets
-- **Flexible Units**: Support for numbers, percentages, currency, time, and custom units
-- **Data Visualization**: Interactive charts and graphs using Recharts
-- **RESTful API**: Comprehensive API for programmatic access
+![Next.js](https://img.shields.io/badge/Next.js-14-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8)
 
-## Tech Stack
+---
 
-### Backend
-- Node.js
-- Express.js
-- MongoDB with Mongoose
-- CORS, Helmet for security
-- Morgan for logging
+## 🌟 Key Features
 
-### Frontend
-- React 18
-- React Router for navigation
-- Axios for API calls
-- Recharts for data visualization
-- date-fns for date formatting
+### ✅ **Phase 1: Foundation (Complete)**
+- ✨ Modern Next.js 14 with App Router
+- 🔐 Supabase authentication & authorization
+- 💾 Comprehensive PostgreSQL database schema
+- 🎨 Tailwind CSS + shadcn/ui components
+- 📱 Fully responsive design
+- 🔒 Row Level Security (RLS) policies
+- 📊 TypeScript for type safety
 
-## Installation
+### 🚧 **Phase 2: Core Features (Ready to Build)**
+- 🏢 Department hierarchy management (cascading structure)
+- 📈 Dynamic KPI definitions
+- ✍️ Manual data entry interface
+- 🧮 Calculation engine (KPI formulas)
+- 📊 Basic dashboards with visualizations
+- 👥 Role-based access control
+- 🎯 Target vs Actual tracking with color coding
 
-### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (v4.4 or higher)
-- npm or yarn
+### 📋 **Phase 3: Advanced Features (Infrastructure Ready)**
+- ⛓️ Cascading KPIs (roll up from lines → departments → plant)
+- 🎛️ Dynamic dashboard builder (drag & drop widgets)
+- 📈 Advanced visualizations (charts, gauges, heatmaps)
+- 🔄 Real-time updates via Supabase subscriptions
+- 📤 Data export (CSV, Excel, PDF)
+- 📧 Alerts & notifications
 
-### Setup
+### 🔮 **Phase 4: Future Enhancements (Database Ready)**
+- 🔌 API integrations (REST, MQTT, OPC-UA)
+- 🏭 Automated data collection from machines
+- 🔍 Lean tools integration (Fishbone, 5 Whys, Pareto)
+- 🤖 AI-powered insights (GPT integration)
+- 💡 Smart KPI issue diagnosis
+- 📱 Mobile applications
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd kpi-platform
-   ```
+---
 
-2. **Install backend dependencies**
-   ```bash
-   npm install
-   ```
+## 🚀 Quick Start
 
-3. **Install frontend dependencies**
-   ```bash
-   cd client
-   npm install
-   cd ..
-   ```
+### **Prerequisites**
+- Node.js 18+
+- Git
+- Supabase account (free)
+- Code editor (VS Code recommended)
 
-4. **Configure environment variables**
-   ```bash
-   cp .env.example .env
-   ```
+### **Installation**
 
-   Edit `.env` and configure:
-   ```
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/kpi-platform
-   NODE_ENV=development
-   ```
+```bash
+# 1. Clone repository
+git clone https://github.com/YOUR_USERNAME/kpi-platform.git
+cd kpi-platform
 
-5. **Start MongoDB**
-   ```bash
-   # Make sure MongoDB is running
-   mongod
-   ```
+# 2. Install dependencies
+npm install
 
-6. **Run the application**
+# 3. Set up environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your Supabase credentials
 
-   Development mode (both frontend and backend):
-   ```bash
-   npm run dev:full
-   ```
+# 4. Run development server
+npm run dev
 
-   Or run separately:
-   ```bash
-   # Terminal 1 - Backend
-   npm run dev
+# 5. Open http://localhost:3000
+```
 
-   # Terminal 2 - Frontend
-   npm run client
-   ```
+### **Database Setup**
 
-7. **Access the application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
-   - Health check: http://localhost:5000/health
+1. Create a Supabase project at [supabase.com](https://supabase.com/)
+2. Go to SQL Editor
+3. Copy and run the contents of `supabase-schema.sql`
+4. Create your first user in Authentication
+5. Add user profile with super_admin role
 
-## Project Structure
+**Full setup guide:** See `SETUP_GUIDE.md` for detailed step-by-step instructions
+
+---
+
+## 📂 Project Structure
 
 ```
 kpi-platform/
-├── server/                 # Backend application
-│   ├── config/            # Configuration files
-│   │   └── database.js    # MongoDB connection
-│   ├── controllers/       # Route controllers
-│   │   ├── categoryController.js
-│   │   ├── dashboardController.js
-│   │   ├── kpiController.js
-│   │   └── metricController.js
-│   ├── models/           # Mongoose models
-│   │   ├── Category.js
-│   │   ├── KPI.js
-│   │   └── Metric.js
-│   ├── routes/           # API routes
-│   │   ├── categoryRoutes.js
-│   │   ├── dashboardRoutes.js
-│   │   ├── kpiRoutes.js
-│   │   └── metricRoutes.js
-│   └── index.js          # Server entry point
-├── client/               # Frontend React application
-│   ├── public/          # Static files
-│   ├── src/
-│   │   ├── components/  # React components
-│   │   │   ├── Dashboard.js
-│   │   │   ├── KPIList.js
-│   │   │   ├── KPIForm.js
-│   │   │   ├── KPIDetail.js
-│   │   │   ├── MetricForm.js
-│   │   │   └── CategoryList.js
-│   │   ├── services/    # API services
-│   │   │   └── api.js
-│   │   ├── App.js       # Main app component
-│   │   ├── App.css
-│   │   ├── index.js
-│   │   └── index.css
-│   └── package.json
-├── .env.example         # Environment variables template
-├── .gitignore
-├── package.json
-└── README.md
+├── app/                    # Next.js App Router
+│   ├── auth/              # Authentication pages
+│   ├── dashboard/         # Main dashboard
+│   ├── layout.tsx         # Root layout
+│   └── globals.css        # Global styles
+├── components/            # React components
+│   └── ui/               # Base UI components
+├── lib/                  # Utilities
+│   ├── supabase/        # Supabase clients
+│   └── utils.ts         # Helper functions
+├── types/               # TypeScript types
+├── supabase-schema.sql  # Database schema
+├── ARCHITECTURE.md      # Architecture docs
+└── SETUP_GUIDE.md       # Beginner guide
 ```
 
-## API Documentation
+---
 
-See [API.md](./API.md) for detailed API documentation.
+## 🔐 User Roles
 
-### Quick API Reference
+| Role | Permissions |
+|------|-------------|
+| **Super Admin** | Full platform access & configuration |
+| **Admin** | Manage KPIs, departments, users |
+| **Manager** | View department KPIs, drill down |
+| **Operator** | Enter data for assigned KPIs |
+| **Viewer** | Read-only dashboard access |
 
-**KPIs**
-- `GET /api/kpis` - Get all KPIs
-- `POST /api/kpis` - Create KPI
-- `GET /api/kpis/:id` - Get KPI by ID
-- `PUT /api/kpis/:id` - Update KPI
-- `DELETE /api/kpis/:id` - Delete KPI
-- `GET /api/kpis/:id/stats` - Get KPI statistics
+---
 
-**Metrics**
-- `GET /api/metrics` - Get all metrics
-- `POST /api/metrics` - Create metric
-- `POST /api/metrics/bulk` - Bulk create metrics
-- `GET /api/metrics/kpi/:kpiId` - Get metrics by KPI
-- `GET /api/metrics/:id` - Get metric by ID
-- `PUT /api/metrics/:id` - Update metric
-- `DELETE /api/metrics/:id` - Delete metric
+## 🎨 KPI Status Colors
 
-**Categories**
-- `GET /api/categories` - Get all categories
-- `POST /api/categories` - Create category
-- `GET /api/categories/:id` - Get category by ID
-- `PUT /api/categories/:id` - Update category
-- `DELETE /api/categories/:id` - Delete category
+| Performance | Color | Status |
+|------------|-------|--------|
+| 100%+ | 🟢 Green | Excellent |
+| 90-99% | 🟡 Yellow | Good |
+| 75-89% | 🟠 Orange | Warning |
+| < 75% | 🔴 Red | Critical |
 
-**Dashboard**
-- `GET /api/dashboard/overview` - Get dashboard overview
-- `GET /api/dashboard/trends` - Get trends data
-- `GET /api/dashboard/performance` - Get performance summary
+---
 
-## Usage
+## 🏭 Use Case Example
 
-### Creating a Category
+**Manufacturing Plant:**
+```
+Plant Manager Dashboard
+└── Overall Plant OEE: 82% 🟡
+    ├── Production Dept: 85% 🟢
+    │   ├── Line 1: 88% 🟢
+    │   └── Line 2: 82% 🟡
+    └── Quality Dept: 89% 🟡
+```
 
-1. Navigate to "Categories" in the navigation menu
-2. Click "+ Add Category"
-3. Fill in the category name, description, and select a color
-4. Click "Create"
+**Workflow:**
+1. Operator enters hourly data
+2. Line KPI auto-calculates
+3. Department average updates
+4. Plant-level KPI rolls up
+5. Dashboards refresh in real-time
 
-### Creating a KPI
+---
 
-1. Navigate to "KPIs" or click "+ Add KPI" from the dashboard
-2. Fill in the KPI details:
-   - Name and description
-   - Select a category
-   - Choose unit type (number, percentage, currency, time, or custom)
-   - Set target value and target type (maximize, minimize, or maintain)
-   - Select frequency (daily, weekly, monthly, quarterly, yearly)
-   - Add tags (optional)
-3. Click "Create KPI"
+## 📖 Documentation
 
-### Adding Metrics
+| Document | Description |
+|----------|-------------|
+| `README.md` | This file - overview & quick start |
+| `ARCHITECTURE.md` | Complete system architecture |
+| `SETUP_GUIDE.md` | Detailed beginner-friendly setup |
+| `supabase-schema.sql` | Database schema with comments |
 
-1. Go to a KPI detail page
-2. Click "+ Add Metric"
-3. Enter the metric value
-4. Select the period and date range
-5. Add notes (optional)
-6. Click "Add Metric"
+---
 
-The KPI will automatically update its current value and trend based on new metrics.
+## 🛠️ Development
 
-## Docker Support
-
-See [Docker documentation](./DOCKER.md) for containerized deployment.
-
-Quick start with Docker:
 ```bash
-docker-compose up -d
+npm run dev         # Development server
+npm run build       # Production build
+npm run start       # Production server
+npm run lint        # ESLint
+npm run type-check  # TypeScript check
 ```
 
-## Development
+---
 
-### Running Tests
-```bash
-npm test
-```
+## 🚢 Deploy to Vercel
 
-### Building for Production
-```bash
-npm run build
-```
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Add environment variables
+4. Deploy! ✨
 
-### Code Style
-The project follows standard JavaScript/React conventions. Ensure code is properly formatted before committing.
+Your app will be live at `https://your-project.vercel.app`
 
-## Features in Detail
+---
 
-### KPI Types
-- **Number**: Simple numeric values
-- **Percentage**: Values displayed as percentages
-- **Currency**: Monetary values
-- **Time**: Time-based measurements
-- **Custom**: Define your own unit
+## 🎯 Next Steps
 
-### Target Types
-- **Maximize**: Higher values are better
-- **Minimize**: Lower values are better
-- **Maintain**: Target a specific value
+After setup:
+1. ✅ Review `ARCHITECTURE.md` for system overview
+2. ✅ Follow `SETUP_GUIDE.md` for detailed setup
+3. ✅ Create your first department
+4. ✅ Define KPIs for your organization
+5. ✅ Start tracking performance!
 
-### Automatic Trend Detection
-The system automatically calculates trends by comparing current and previous values:
-- **Up**: Current value > Previous value
-- **Down**: Current value < Previous value
-- **Stable**: Current value = Previous value
+---
 
-### Performance Calculation
-Performance is automatically calculated as:
-```
-Performance (%) = (Current Value / Target Value) × 100
-```
+## 📝 License
 
-### Data Visualization
-- Line charts for trend analysis
-- Bar charts for category comparisons
-- Real-time performance indicators
-- Historical data tracking
+MIT License
 
-## Contributing
+---
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+## 🙏 Acknowledgments
 
-## License
+Built with:
+- ⚡ Next.js by Vercel
+- 🔥 Supabase
+- 🎨 Tailwind CSS
+- 🧩 Radix UI
+- 📊 Recharts
 
-MIT License - see LICENSE file for details
+---
 
-## Support
+**Made for manufacturing excellence** 🏭✨
 
-For issues and questions, please open an issue on the GitHub repository.
-
-## Roadmap
-
-- [ ] User authentication and authorization
-- [ ] Role-based access control
-- [ ] Email notifications and alerts
-- [ ] Export data to CSV/Excel
-- [ ] Advanced filtering and search
-- [ ] Mobile responsive improvements
-- [ ] API rate limiting
-- [ ] Webhook integrations
-- [ ] Custom dashboard widgets
-- [ ] Multi-language support
+**Questions?** See `SETUP_GUIDE.md` or open an issue!
