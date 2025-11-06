@@ -557,10 +557,11 @@ CREATE POLICY "Users can view entries for their department and children"
   USING (
     EXISTS (
       SELECT 1 FROM user_profiles up
-      JOIN departments d ON up.department_id = d.id
-      JOIN department_kpis dk ON dk.department_id <@ d.path OR dk.department_id = d.id
+      JOIN departments user_dept ON up.department_id = user_dept.id
+      JOIN department_kpis dk ON dk.id = kpi_entries.department_kpi_id
+      JOIN departments kpi_dept ON dk.department_id = kpi_dept.id
       WHERE up.id = auth.uid()
-      AND dk.id = kpi_entries.department_kpi_id
+      AND (kpi_dept.path <@ user_dept.path OR kpi_dept.id = user_dept.id)
     )
   );
 
