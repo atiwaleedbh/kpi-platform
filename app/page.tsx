@@ -1,6 +1,10 @@
 import { redirect } from 'next/navigation';
 import { createServerClient } from '@/lib/supabase/server';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 /**
  * Home page - redirects to dashboard if authenticated, otherwise to login
  */

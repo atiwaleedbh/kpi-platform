@@ -16,6 +16,9 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
+  // Optimize for Vercel deployment
+  output: 'standalone',
+  poweredByHeader: false,
 };
 
 module.exports = nextConfig;

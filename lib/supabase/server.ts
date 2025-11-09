@@ -3,17 +3,45 @@
  * Use this in Server Components and API Routes
  */
 
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { createServerClient as createSupabaseServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import { Database } from '@/types/supabase';
 
 /**
- * Create Supabase client for Server Components
+ * Create Supabase client for Server Components and API Routes
  * This reads the user's session from cookies
  */
 export function createServerClient() {
-  return createServerComponentClient<Database>({ cookies });
+  const cookieStore = cookies();
+
+  return createSupabaseServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          try {
+            cookieStore.set({ name, value, ...options });
+          } catch (error) {
+            // The `set` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
+        },
+        remove(name: string, options: CookieOptions) {
+          try {
+            cookieStore.set({ name, value: '', ...options });
+          } catch (error) {
+            // The `delete` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
+        },
+      },
+    }
+  );
 }
 
 /**
@@ -21,5 +49,5 @@ export function createServerClient() {
  * This handles authentication in API routes
  */
 export function createRouteClient() {
-  return createRouteHandlerClient<Database>({ cookies });
+  return createServerClient();
 }
